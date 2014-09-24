@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block container %}
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Setup/Reset LDAP Password</h3>
+      </div>
+      <div class="panel-body">
+        <div class="alert alert-danger">
+          {{ error }}
+          <div>
+            <a href="/"><button class="btn btn-primary" type="submit">Start over</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
