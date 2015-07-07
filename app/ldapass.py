@@ -75,15 +75,15 @@ def index():
                 l = ldap.initialize(
                     ldap_uri, trace_level=conf.get('app', 'ldap_debug'))
                 l.start_tls_s()
-            except ldap.LDAPError, e:
-                return render_template('index.html', error=e, form=form)
+            except ldap.LDAPError as error:
+                return render_template('index.html', error=error, form=form)
             try:
                 search_filter = 'mail={mail}'.format(mail=form.mail.data)
                 ldap_result_id = l.search(
                     conf.get('ldap', 'basedn'), ldap.SCOPE_SUBTREE,
                     search_filter, None)
-            except ldap.LDAPError, e:
-                return render_template('index.html', error=e, form=form)
+            except ldap.LDAPError as error:
+                return render_template('index.html', error=error, form=form)
             result_type, result_data = l.result(ldap_result_id, 0)
             if len(result_data) == 1:
                 link_id = '{uuid}-{account}'.format(
@@ -179,8 +179,8 @@ def reset(link_id):
                     l = ldap.initialize(
                         ldap_uri, trace_level=conf.get('app', 'ldap_debug'))
                     l.start_tls_s()
-                except ldap.LDAPError, e:
-                    return render_template('error.html', error=e)
+                except ldap.LDAPError as error:
+                    return render_template('error.html', error=error)
                 try:
                     search_filter = 'mail={mail}'.format(mail=db_data[0][1])
                     ldap_result_id = l.search(
@@ -197,9 +197,9 @@ def reset(link_id):
                             basedn=conf.get('ldap', 'basedn')),
                         None,
                         '{passwd}'.format(passwd=form.passwd.data))
-                except ldap.LDAPError, e:
+                except ldap.LDAPError as error:
                     error = 'LDAP error: {error}, please get in touch with \
-                        LDAP administration.'.format(error=e)
+                        LDAP administration.'.format(error=error)
                     return render_template(
                         'reset.html',
                         error=error,
