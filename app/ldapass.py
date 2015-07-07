@@ -76,16 +76,14 @@ def index():
                     ldap_uri, trace_level=conf.get('app', 'ldap_debug'))
                 l.start_tls_s()
             except ldap.LDAPError, e:
-                error = e
-                return render_template('index.html', error=error, form=form)
+                return render_template('index.html', error=e, form=form)
             try:
                 search_filter = 'mail={mail}'.format(mail=form.mail.data)
                 ldap_result_id = l.search(
                     conf.get('ldap', 'basedn'), ldap.SCOPE_SUBTREE,
                     search_filter, None)
             except ldap.LDAPError, e:
-                error = e
-                return render_template('index.html', error=error, form=form)
+                return render_template('index.html', error=e, form=form)
             result_type, result_data = l.result(ldap_result_id, 0)
             if len(result_data) == 1:
                 link_id = '{uuid}-{account}'.format(
@@ -132,7 +130,6 @@ def index():
                     link_id=link_id
                 )
                 send_mail(form.mail.data, reset_url)
-                # print result_data[0][1]['mail']
             elif len(result_data) > 1:
                 error = 'More than one user found with email address of \
                     {mail}. Plese, get in touch with LDAP administration \
@@ -164,7 +161,6 @@ def reset(link_id):
             flash(
                 'You are changing password for the account of {mail}'.format(
                     mail=db_data[0][1]))
-            print db_data
             return render_template(
                 'reset.html',
                 error=error,
