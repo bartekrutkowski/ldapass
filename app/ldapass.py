@@ -6,7 +6,7 @@ import sqlite3
 import time
 import uuid
 
-import configparser
+from ConfigParser import RawConfigParser
 from email.mime.text import MIMEText
 from flask import Flask, flash, request, render_template, redirect, url_for
 import ldap
@@ -15,7 +15,7 @@ from wtforms import Form, TextField, PasswordField, validators
 
 app = Flask('__name__')
 app.secret_key = os.urandom(128)
-conf = configparser.RawConfigParser()
+conf = RawConfigParser()
 conf.read(os.environ['LDAPASS_CONFIG'])
 
 
@@ -224,7 +224,7 @@ def reset(link_id):
 
 
 if __name__ == '__main__':
-    conf = configparser.RawConfigParser()
+    conf = RawConfigParser()
     conf.read(os.environ['LDAPASS_CONFIG'])
 
     # test if the database exists, and create it if not, with proper warning

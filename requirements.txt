@@ -1,5 +1,3 @@
 Flask
 WTForms
-Werkzeug
-configparser
 python-ldap
