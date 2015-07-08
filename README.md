@@ -6,12 +6,21 @@ LDAPass is a Python/Flask simple web application that aims to make Unix/Linux LD
 
 ## Requirements
 
-To host LDAPass you need the following software installed:
+To host LDAPass on a Unix/Linux system you need the following software installed:
 
-- Python 2.7.x and following modules:
+- Python 2.7.x with following modules:
   - Flask
   - python-ldap
   - WTForms
-  - Werkzeug
-- A web server (Nginx, Apache etc., example Nginx configuration is probvided)
+- A web server (Nginx, Apache etc., example Nginx configuration is provided)
 - UWSGI 2.x
+
+## Installation
+
+The following examples are assuming you are deploying LDAPass on a FreeBSD system, you should adjust your paths accordingly to your OS.
+
+Clone the repository into proper location:
+
+```sh
+$ git clone git@github.com:bartekrutkowski/ldapass.git /var/www/ldapass
+```
