@@ -1,4 +1,4 @@
-ldapass
+ldapass [![Build Status](https://travis-ci.org/bartekrutkowski/ldapass.png?branch=master)](https://travis-ci.org/bartekrutkowski/ldapass)
 =======
 **Web application for setting/changing LDAP user passwords.**
 
