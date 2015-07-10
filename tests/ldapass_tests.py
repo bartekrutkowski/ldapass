@@ -1,4 +1,4 @@
-from app import ldapass
+from ldapass import app
 import unittest
 
 
