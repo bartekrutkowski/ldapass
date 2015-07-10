@@ -8,7 +8,8 @@ install:
   - pip install -r requirements.txt
 
 env:
-  - PYTHONPATH=`pwd`
-  - LDAPASS_CONFIG=tests/ldapass.conf
+  global:
+    - PYTHONPATH=`pwd`
+    - LDAPASS_CONFIG=tests/ldapass.conf
 
 script: nosetests
