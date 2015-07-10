@@ -38,3 +38,19 @@ Copy the Nginx nginx_ldapass.example.com.conf configuration file into your OS Ng
 $ cp /var/www/ldapass/examples/nginx_ldapass.example.com.conf /usr/local/etc/nginx/conf.d/ldapass.example.com.conf
 $ vi /usr/local/etc/nginx/conf.d/ldapass.example.com.conf
 ```
+
+Copy the UWSGI uwsgi_ldapass.ini configuration file into your OR UWSGI config directory and edit it with appropriate values:
+
+```sh
+$ cp /var/www/ldapass/examples/uwsgi_ldapass.ini /usr/local/etc/uwsgi_ldapass.ini
+$ vi /usr/local/etc/uwsgi_ldapass.ini
+```
+
+Start the UWSGI and Nginx services:
+
+```sh
+$ service uwsgi start
+$ service nginx start
+```
+
+You're done!
