@@ -9,7 +9,6 @@ install:
 
 env:
   global:
-    - PYTHONPATH=`pwd`
     - LDAPASS_CONFIG=tests/ldapass.conf
 
 script: nosetests
