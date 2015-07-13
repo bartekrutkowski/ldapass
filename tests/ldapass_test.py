@@ -6,6 +6,8 @@ class TestIndex(unittest.TestCase):
 
     def setUp(self):
         self.app = ldapass.app.test_client()
+        self.app.config["DEBUG"] = True
+        self.app.config["TESTING"] = True
         self.resp = self.app.get('/')
 
     def tearDown(self):
