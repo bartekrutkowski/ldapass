@@ -1,11 +1,11 @@
-from ldapass import app
+from ldapass import ldapass
 import unittest
 
 
 class TestIndex(unittest.TestCase):
 
     def setUp(self):
-        self.app = app.test_client()
+        self.app = ldapass.app.test_client()
         self.resp = self.app.get('/')
 
     def tearDown(self):
