@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from os.path import join
 from setuptools import setup, find_packages
 
 setup(name='ldapass',
@@ -11,6 +10,6 @@ setup(name='ldapass',
       license='BSD3',
       url='https://github.com/bartekrutkowski/ldapass',
       packages=find_packages(),
-      entry_points = {'console_scripts': ['ldapass = ldapass:main']},
+      entry_points = {'console_scripts': ['ldapass=ldapass:main']},
       install_requires=['Flask', 'WTForms', 'python-ldap'],
       )

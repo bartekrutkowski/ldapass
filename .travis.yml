@@ -10,4 +10,4 @@ env:
   global:
     - LDAPASS_CONFIG=tests/ldapass.conf
 
-script: nosetests
+script: py.test
