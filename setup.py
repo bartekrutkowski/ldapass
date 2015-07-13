@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(name='ldapass',
       version='0.1',
-      description='Web application for setting/changing LDAP user passwords.'
+      description='Web application for setting/changing LDAP user passwords.',
       author='Bartek Rutkowski',
       author_email='contact+ldapass@robakdesign.com',
       license='BSD3',
