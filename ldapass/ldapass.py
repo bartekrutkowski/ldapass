@@ -101,10 +101,10 @@ def index():
                     db_curs.execute(
                         "INSERT INTO mails (mail, link_id, created) VALUES \
                         ('{mail}', '{link_id}', '{created}')".format(
-                        mail=form.mail.data,
-                        link_id=link_id,
-                        created=datetime.datetime.now()
-                    ))
+                            mail=form.mail.data,
+                            link_id=link_id,
+                            created=datetime.datetime.now()
+                        ))
                     flash('Email containing password reset url has been sent \
                         to {mail}'.format(mail=form.mail.data))
                 else:
@@ -114,10 +114,10 @@ def index():
                     db_curs.execute(
                         "REPLACE INTO mails (mail, link_id, created) VALUES \
                         ('{mail}', '{link_id}', '{created}')".format(
-                        mail=form.mail.data,
-                        link_id=link_id,
-                        created=datetime.datetime.now()
-                    ))
+                            mail=form.mail.data,
+                            link_id=link_id,
+                            created=datetime.datetime.now()
+                        ))
                     flash('Email containing password reset url has been sent \
                         to {mail}. Previous reset urls have been \
                         invalidated.'.format(mail=form.mail.data))
@@ -232,7 +232,7 @@ if __name__ == '__main__':
     db_curs = db_conn.cursor()
     db_curs.execute(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='mails'")
-    if len(db_curs.fetchall()) == 0:
+    if not db_curs.fetchall():
         print('WARNING: the SQLite file {database} doesnt exist! Sleeping for \
             10 seconds and creating the database file. KILL ME if this is an \
             error!').format(database=conf.get('app', 'database'))
@@ -241,7 +241,7 @@ if __name__ == '__main__':
             '''create table mails (
                 id      INTEGER PRIMARY KEY,
                 mail    VARCHAR(255) NOT NULL COLLATE NOCASE,
-                link_id    VARCHAR(512) NOT NULL COLLATE NOCASE,
+                link_id VARCHAR(512) NOT NULL COLLATE NOCASE,
                 created INTEGER DEFAULT NULL);
             ''')
         db_conn.commit()
