@@ -1,9 +1,11 @@
 from ldapass import ldapass
+import pytest
 import unittest
 
 
 class TestIndex(unittest.TestCase):
 
+    @pytest.fixture(autouse=True)
     def setUp(self):
         self.app = ldapass.app.test_client()
         self.app.testing = True
