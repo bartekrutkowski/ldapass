@@ -33,6 +33,3 @@ class TestIndex(unittest.TestCase):
         self.assertIn(
             b'<button class="btn btn-primary" type="submit">Submit</button>',
             self.resp.data)
-
-if __name__ == '__main__':
-    unittest.main()
