@@ -13,7 +13,7 @@ import ldap
 from wtforms import Form, TextField, PasswordField, validators
 
 
-app = Flask('__name__')
+app = Flask(__name__)
 app.secret_key = os.urandom(128)
 conf = RawConfigParser()
 conf.read(os.environ['LDAPASS_CONFIG'])

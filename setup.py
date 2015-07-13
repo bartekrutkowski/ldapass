@@ -11,6 +11,6 @@ setup(name='ldapass',
       license='BSD3',
       url='https://github.com/bartekrutkowski/ldapass',
       packages=find_packages(),
-      entry_points = {'console_scripts': ['ldapass = ldapass:main',]},
+      entry_points = {'console_scripts': ['ldapass = ldapass:main']},
       install_requires=['Flask', 'WTForms', 'python-ldap'],
       )
