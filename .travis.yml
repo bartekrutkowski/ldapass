@@ -1,0 +1,14 @@
+language: python
+
+python:
+  - "2.7"
+  - "pypy"
+
+install:
+  - pip install -r requirements.txt
+
+env:
+  global:
+    - LDAPASS_CONFIG=tests/ldapass.conf
+
+script: nosetests
