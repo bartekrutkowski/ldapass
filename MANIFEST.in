@@ -1,0 +1,2 @@
+recursive-include ldapass/templates *
+recursive-include ldapass/static *
