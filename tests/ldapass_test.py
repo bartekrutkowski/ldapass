@@ -28,7 +28,7 @@ def test_get_html_text(test_client):
     assert b'Setup/Reset LDAP Password' in resp.data
 
 
-def testGetHtmlForm(test_client):
+def test_get_html_form(test_client):
     '''GET / request should return html with proper form.'''
     resp = test_client.get('/')
     assert b'<form role="form" method="post" action="/" class="form-horizontal">' in resp.data
