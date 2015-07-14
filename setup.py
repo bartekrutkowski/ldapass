@@ -12,6 +12,7 @@ setup(
     url='https://github.com/bartekrutkowski/ldapass',
     packages=find_packages(),
     include_package_data=True,
-    entry_points = {'console_scripts': ['ldapass=ldapass:main']},
+    package_data={'ldapass': ['static/*', 'templates/*']},
+    entry_points={'console_scripts': ['ldapass = ldapass:main']},
     install_requires=['Flask', 'WTForms', 'python-ldap']
 )
