@@ -9,6 +9,7 @@ class TestIndex(unittest.TestCase):
     def setUp(self):
         self.app = ldapass.app.test_client()
         self.app.testing = True
+        self.app.debug = True
         self.resp = self.app.get('/')
 
     def tearDown(self):
