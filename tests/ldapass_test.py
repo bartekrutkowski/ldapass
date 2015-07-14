@@ -1,36 +1,35 @@
-from ldapass import ldapass
 import pytest
-import unittest
+
+from ldapass import ldapass
 
 
-class TestIndex(unittest.TestCase):
+@pytest.yield_fixture(autouse=True)
+def flask_app():
+    ldapass.app.testing = True
+    ldapass.app.debug = True
+    with ldapass.app.app_context():
+        yield ldapass.app
 
-    @pytest.fixture(autouse=True)
-    def setUp(self):
-        self.app = ldapass.app.test_client()
-        self.app.testing = True
-        self.app.debug = True
-        self.resp = self.app.get('/')
 
-    def tearDown(self):
-        pass
+@pytest.fixture
+def test_client(flask_app):
+    return flask_app.test_client()
 
-    def testGetResponseCode(self):
-        '''GET / reques should return 200 HTTP code.'''
-        self.assertEqual(self.resp.status_code, 200)
 
-    def testGetHtmlText(self):
-        '''GET / request should return html with proper text.'''
-        self.assertIn(
-                    b'Setup/Reset LDAP Password',
-                    self.resp.data)
+def test_get_response_code(test_client):
+    '''GET / reques should return 200 HTTP code.'''
+    resp = test_client.get('/')
+    assert resp.status_code == 200
 
-    def testGetHtmlForm(self):
-        '''GET / request should return html with proper form.'''
-        self.assertIn(
-            b'<form role="form" method="post" action="/"'
-            b' class="form-horizontal">',
-            self.resp.data)
-        self.assertIn(
-            b'<button class="btn btn-primary" type="submit">Submit</button>',
-            self.resp.data)
+
+def test_get_html_text(test_client):
+    '''GET / request should return html with proper text.'''
+    resp = test_client.get('/')
+    assert b'Setup/Reset LDAP Password' in resp.data
+
+
+def testGetHtmlForm(self):
+    '''GET / request should return html with proper form.'''
+    resp = test_client.get('/')
+    assert b'<form role="form" method="post" action="/" class="form-horizontal">' in resp.data
+    assert b'<button class="btn btn-primary" type="submit">Submit</button>' in resp.data
