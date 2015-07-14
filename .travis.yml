@@ -1,13 +1,15 @@
 language: python
 
 python:
-  - "2.7"
+  - 2.7
 
 install:
-  - pip install .
+  - pip install -q -r requirements.txt
+  - pip install -q -e .
 
 env:
   global:
     - LDAPASS_CONFIG=tests/ldapass.conf
 
-script: py.test
+script:
+  - py.test
