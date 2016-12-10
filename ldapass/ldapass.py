@@ -69,22 +69,21 @@ def index():
         if form.validate():
             ldap_uri = 'ldap://{addr}:{port}'.format(
                 addr=conf.get('ldap', 'addr'), port=conf.get('ldap', 'port'))
+            ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
             try:
-                ldap.set_option(
-                    ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
-                l = ldap.initialize(
+                ldap_conn = ldap.initialize(
                     ldap_uri, trace_level=conf.get('app', 'ldap_debug'))
-                l.start_tls_s()
+                ldap_conn.start_tls_s()
             except ldap.LDAPError as error:
                 return render_template('index.html', error=error, form=form)
             try:
                 search_filter = 'mail={mail}'.format(mail=form.mail.data)
-                ldap_result_id = l.search(
+                ldap_result_id = ldap_conn.search(
                     conf.get('ldap', 'basedn'), ldap.SCOPE_SUBTREE,
                     search_filter, None)
             except ldap.LDAPError as error:
                 return render_template('index.html', error=error, form=form)
-            result_type, result_data = l.result(ldap_result_id, 0)
+            result_type, result_data = ldap_conn.result(ldap_result_id, 0)
             if len(result_data) == 1:
                 link_id = '{uuid}-{account}'.format(
                     uuid=str(uuid.uuid4()),
@@ -173,25 +172,24 @@ def reset(link_id):
                     addr=conf.get('ldap', 'addr'),
                     port=conf.get('ldap', 'port')
                 )
+                ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
                 try:
-                    ldap.set_option(
-                        ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
-                    l = ldap.initialize(
+                    ldap_conn = ldap.initialize(
                         ldap_uri, trace_level=conf.get('app', 'ldap_debug'))
-                    l.start_tls_s()
+                    ldap_conn.start_tls_s()
                 except ldap.LDAPError as error:
                     return render_template('error.html', error=error)
                 try:
                     search_filter = 'mail={mail}'.format(mail=db_data[0][1])
-                    ldap_result_id = l.search(
+                    ldap_result_id = ldap_conn.search(
                         conf.get('ldap', 'basedn'),
                         ldap.SCOPE_SUBTREE,
                         search_filter,
                         None)
-                    result_type, result_data = l.result(ldap_result_id, 0)
-                    l.simple_bind_s(
+                    result_type, result_data = ldap_conn.result(ldap_result_id, 0)
+                    ldap_conn.simple_bind_s(
                         conf.get('ldap', 'user'), conf.get('ldap', 'pass'))
-                    l.passwd_s(
+                    ldap_conn.passwd_s(
                         'uid={uid},{basedn}'.format(
                             uid=result_data[0][1]['uid'][0],
                             basedn=conf.get('ldap', 'basedn')),
