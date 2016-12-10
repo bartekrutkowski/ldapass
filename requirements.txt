@@ -1,3 +1,4 @@
 Flask
-WTForms
 python-ldap
+sqlite3
+WTForms
