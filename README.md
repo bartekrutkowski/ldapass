@@ -2,33 +2,34 @@ ldapass [![Build Status](https://travis-ci.org/bartekrutkowski/ldapass.svg?branc
 =======
 **Web application for setting/changing LDAP user passwords.**
 
-LDAPass is a Python/Flask simple web application that aims to make Unix/Linux LDAP user account passwords manageable by their users without involvement of DevOps/SysAdmin resources in a simple, non complicated application not requiring extensive setup nor maintenance.
+LDAPass is a Python/Flask simple web application that aims to make Unix/Linux user account LDAP passwords manageable by their owners without involvement of DevOps/SysAdmin resources in a simple application not requiring extensive setup or maintenance.
 
 ## Requirements
 
-To host LDAPass on a Unix/Linux system you need the following software installed:
+To run LDAPass on a Unix/Linux system you need the following software installed:
 
 - Python 2.7.x with following modules installed:
   - Flask
-  - python-ldap
+  - Python-LDAP
   - WTForms
+  - SQLite3
 - A web server (Nginx, Apache etc., example Nginx configuration is provided)
-- UWSGI 2.x
+- Application Server Container (example UWSGI 2.x configuration is provided)
 
 ## Installation
 
 The following examples are assuming you are deploying LDAPass on a FreeBSD system, you should adjust your paths accordingly to your OS.
 
-Clone the repository into proper location:
+Clone the repository to the chosen location:
 
 ```sh
-$ git clone git@github.com:bartekrutkowski/ldapass.git /var/www/ldapass
+$ git clone https://github.com/bartekrutkowski/ldapass.git /var/www/ldapass
 ```
 
-Copy the config ldapass.conf configuration file and edit it with appropriate values:
+Copy the example ldapass.conf configuration file to main app directory and edit it with appropriate values:
 
 ```sh
-$ cp /var/www/ldapass/examples/ldapass.conf /var/www/ldapass/ldapass/
+$ cp /var/www/ldapass/examples/ldapass.conf /var/www/ldapass/ldapass/ldapass.conf
 $ vi /var/www/ldapass/ldapass/ldapass.conf
 ```
 
