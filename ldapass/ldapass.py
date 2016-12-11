@@ -70,9 +70,8 @@ def index():
             ldap_uri = 'ldap://{addr}:{port}'.format(
                 addr=conf.get('ldap', 'addr'), port=conf.get('ldap', 'port'))
             ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+            ldap_conn = ldap.initialize(ldap_uri, trace_level=conf.get('ldap', 'debug'))
             try:
-                ldap_conn = ldap.initialize(
-                    ldap_uri, trace_level=conf.get('ldap', 'debug'))
                 ldap_conn.start_tls_s()
             except ldap.LDAPError as error:
                 return render_template('index.html', error=error, form=form)
@@ -173,9 +172,8 @@ def reset(link_id):
                     port=conf.get('ldap', 'port')
                 )
                 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+                ldap_conn = ldap.initialize(ldap_uri, trace_level=conf.get('ldap', 'debug'))
                 try:
-                    ldap_conn = ldap.initialize(
-                        ldap_uri, trace_level=conf.get('ldap', 'debug'))
                     ldap_conn.start_tls_s()
                 except ldap.LDAPError as error:
                     return render_template('error.html', error=error)
