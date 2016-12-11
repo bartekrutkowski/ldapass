@@ -250,4 +250,5 @@ if __name__ == '__main__':
     db_conn.close()
 
     app.run(host=conf.get('app', 'listen_addr'),
-            port=conf.getint('app', 'listen_port'), debug=True)
+            port=conf.getint('app', 'listen_port'),
+            debug=conf.getboolean('app', 'debug'))
