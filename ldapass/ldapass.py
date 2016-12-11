@@ -71,18 +71,16 @@ def index():
                 addr=conf.get('ldap', 'addr'), port=conf.get('ldap', 'port'))
             ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
             ldap_conn = ldap.initialize(ldap_uri, trace_level=conf.get('ldap', 'debug'))
+            search_filter = 'mail={mail}'.format(mail=form.mail.data)
+
             try:
-                ldap_conn.start_tls_s()
+                if conf.getboolean('ldap', 'starttls'):
+                    ldap_conn.start_tls_s()
+                ldap_result_id = ldap_conn.search(conf.get('ldap', 'basedn'), ldap.SCOPE_SUBTREE, search_filter, None)
+                result_type, result_data = ldap_conn.result(ldap_result_id, 0)
             except ldap.LDAPError as error:
                 return render_template('index.html', error=error, form=form)
-            try:
-                search_filter = 'mail={mail}'.format(mail=form.mail.data)
-                ldap_result_id = ldap_conn.search(
-                    conf.get('ldap', 'basedn'), ldap.SCOPE_SUBTREE,
-                    search_filter, None)
-            except ldap.LDAPError as error:
-                return render_template('index.html', error=error, form=form)
-            result_type, result_data = ldap_conn.result(ldap_result_id, 0)
+
             if len(result_data) == 1:
                 link_id = '{uuid}-{account}'.format(
                     uuid=str(uuid.uuid4()),
@@ -173,17 +171,13 @@ def reset(link_id):
                 )
                 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
                 ldap_conn = ldap.initialize(ldap_uri, trace_level=conf.get('ldap', 'debug'))
+                search_filter = 'mail={mail}'.format(mail=db_data[0][1])
+
                 try:
-                    ldap_conn.start_tls_s()
-                except ldap.LDAPError as error:
-                    return render_template('error.html', error=error)
-                try:
-                    search_filter = 'mail={mail}'.format(mail=db_data[0][1])
-                    ldap_result_id = ldap_conn.search(
-                        conf.get('ldap', 'basedn'),
-                        ldap.SCOPE_SUBTREE,
-                        search_filter,
-                        None)
+                    if conf.getboolean('ldap', 'starttls'):
+                        ldap_conn.start_tls_s()
+                    ldap_result_id = ldap_conn.search(conf.get('ldap', 'basedn'),
+                                                      ldap.SCOPE_SUBTREE, search_filter, None)
                     result_type, result_data = ldap_conn.result(ldap_result_id, 0)
                     ldap_conn.simple_bind_s(
                         conf.get('ldap', 'user'), conf.get('ldap', 'pass'))
@@ -196,11 +190,8 @@ def reset(link_id):
                 except ldap.LDAPError as error:
                     error = 'LDAP error: {error}, please get in touch with \
                         LDAP administration.'.format(error=error)
-                    return render_template(
-                        'reset.html',
-                        error=error,
-                        form=form
-                    )
+                    return render_template('reset.html', error=error, form=form)
+
                 flash('Password for account {mail} has been changed.'.format(
                     mail=db_data[0][1]))
                 db_curs.execute(
